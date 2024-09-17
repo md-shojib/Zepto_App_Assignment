@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Font Group Form</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f7f6;
+            margin: 0;
+            padding: 20px;
+            color: #333;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background: #fff;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+        .font-row {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+        .font-row label {
+            flex: 0 0 150px;
+            font-weight: bold;
+        }
+        .font-row select {
+            flex: 1;
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 16px;
+        }
+        button {
+            background-color: #007BFF;
+            color: #fff;
+            border: none;
+            padding: 10px 15px;
+            font-size: 16px;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        .add-row {
+            margin-top: 20px;
+            text-align: center;
+        }
+        .add-row button {
+            margin-right: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Font Selection Form</h1>
+        <form id="fontForm" action="process.php" method="POST">
+            <div id="fontContainer">
+                <div class="font-row">
+                    <label for="font1">Select Font 1:</label>
+                    <select name="fonts[]" id="font1">
+                        <option value="">Select a font</option>
+                        <option value="Arial">Arial</option>
+                        <option value="Verdana">Verdana</option>
+                        <option value="Times New Roman">Times New Roman</option>
+                        <!-- Add more font options as needed -->
+                    </select>
+                </div>
+            </div>
+            <div class="add-row">
+                <button type="button" onclick="addRow()"><i class="fas fa-plus"></i> Add Row</button>
+                <button type="submit">Create</button>
+            </div>
+        </form>
+    </div>
+
+    <script>
+        let rowCount = 1;
+
+        function addRow() {
+            rowCount++;
+            const fontContainer = document.getElementById('fontContainer');
+            const newRow = document.createElement('div');
+            newRow.classList.add('font-row');
+            newRow.innerHTML = `
+                <label for="font${rowCount}">Select Font ${rowCount}:</label>
+                <select name="fonts[]" id="font${rowCount}">
+                    <option value="">Select a font</option>
+                    <option value="Arial">Arial</option>
+                    <option value="Verdana">Verdana</option>
+                    <option value="Times New Roman">Times New Roman</option>
+                    <!-- Add more font options as needed -->
+                </select>
+            `;
+            fontContainer.appendChild(newRow);
+        }
+
+        document.getElementById('fontForm').addEventListener('submit', function(event) {
+            const selects = document.querySelectorAll('select[name="fonts[]"]');
+            let selectedCount = 0;
+            selects.forEach(select => {
+                if (select.value !== "") {
+                    selectedCount++;
+                }
+            });
+
+            if (selectedCount < 2) {
+                alert('You must select at least two fonts.');
+                event.preventDefault(); // Prevent form submission
+            }
+        });
+    </script>
+</body>
+</html>
